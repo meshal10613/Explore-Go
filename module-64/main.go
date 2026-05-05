@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 func main() {
 	//? Anonymous Function
 	// var makeCoffee = func() {
@@ -53,9 +51,18 @@ func main() {
 	// }
 
 	//? While Style Loop with For Loop
-	i := 0
-	for i <= 10 {
-		fmt.Println(i)
-		i++
-	}
+	// i := 0
+	// for i <= 10 {
+	// 	fmt.Println(i)
+	// 	i++
+	// }
+
+	//? Scan
+	// var choice int
+	// fmt.Print("Enter your number: ")
+	// fmt.Scan(&choice)
+	// fmt.Println("You enterd: ",choice)
+
+	task()
 }
+
