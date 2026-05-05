@@ -26,7 +26,7 @@ func main() {
 	// fmt.Printf("Outside the block: %d\n", x)
 
 	//? If, Else & Switch Statement
-	num := 10
+	// num := 10
 	// if num%2 == 0 {
 	// 	fmt.Println("Even")
 	// } else if num%3 == 0 {
@@ -35,12 +35,27 @@ func main() {
 	// 	fmt.Println("Odd")
 	// }
 
-	switch {
-	case num > 10:
-		fmt.Println("Greater than 10")
-	case num < 10:
-		fmt.Println("Less than 10")
-	default:
-		fmt.Println("Equal to 10")
+	// switch {
+	// case num > 10:
+	// 	fmt.Println("Greater than 10")
+	// case num < 10:
+	// 	fmt.Println("Less than 10")
+	// default:
+	// 	fmt.Println("Equal to 10")
+	// }
+
+	//? For Loop
+	// for i := 0; i < 10; i++ {
+	// 	fmt.Println(i)
+	// 	if i == 5 {
+	// 		break
+	// 	}
+	// }
+
+	//? While Style Loop with For Loop
+	i := 0
+	for i <= 10 {
+		fmt.Println(i)
+		i++
 	}
 }
