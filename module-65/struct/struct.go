@@ -13,6 +13,12 @@ type additionalInfo struct {
 	address string
 }
 
+type User2 struct {
+	name  string
+	email string
+	age   int
+}
+
 func main() {
 	//? Struct in Go
 	// user := User {"John Doe", "john@doe.com"} // position based initialization
@@ -33,14 +39,31 @@ func main() {
 
 	// fmt.Println(user1)
 
-	user := User{
-		username: "John Doe",
-		email:    "john@doe.com",
-		info: additionalInfo{
-			phone:   1234567890,
-			address: "123 Main Street",
-		},
+	// user := User{
+	// 	username: "John Doe",
+	// 	email:    "john@doe.com",
+	// 	info: additionalInfo{
+	// 		phone:   1234567890,
+	// 		address: "123 Main Street",
+	// 	},
+	// }
+
+	// fmt.Printf("%+v", user)
+
+	//? Constructor Function
+	newUser2 := func(name string, email string, age int) User2 {
+		if name == "" || email == "" || age <= 0 {
+			fmt.Println("Invalid input")
+			return User2{}
+		}
+
+		return User2{
+			name:  name,
+			email: email,
+			age:   age,
+		}
 	}
 
-	fmt.Printf("%+v", user)
+	Meshal := newUser2("Meshal", "meshal@example.com", 0)
+	fmt.Printf("%+v", Meshal)
 }
