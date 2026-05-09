@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 // type user struct {
 // 	name       string
 // 	age        int
@@ -27,10 +29,19 @@ func main() {
 	// user1.greet()
 
 	user2 := User{name: "John", age: 25, isLoggedIn: false}
-	user2.greet() 
+	// user3 := User{name: "Doe", age: 30, isLoggedIn: true}
+
+	user2.login()
+
+	fmt.Printf("%+v", user2)
 }
 
 //? Method with Structs
 func (user User) greet() {
-	println("Hello,", user.name)
+	fmt.Println("Hello,", user.name)
+}
+
+func (user *User) login() {
+	(*user).isLoggedIn = true
+	fmt.Println(user.name, "is now logged in.")
 }
