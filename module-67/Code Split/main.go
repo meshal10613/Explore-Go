@@ -3,6 +3,8 @@ package main
 import (
 	"CodeSplit/payment"
 	testing "CodeSplit/test" //? alias
+
+	"github.com/fatih/color"
 )
 
 //? package name smaller -> private e.g. checkout
@@ -20,4 +22,6 @@ func main() {
 	mockPM := testing.MockPaymentMethod{}
 	mockPayment := payment.NewPaymentServie(&mockPM)
 	mockPayment.Checkout(1000.00)
+
+	color.New(color.BgGreen, color.FgBlue).Println("\nSuccess")
 }
