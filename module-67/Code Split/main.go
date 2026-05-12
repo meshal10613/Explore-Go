@@ -3,12 +3,18 @@ package main
 import (
 	"CodeSplit/payment"
 	testing "CodeSplit/test" //? alias
+	"fmt"
 
 	"github.com/fatih/color"
 )
 
 //? package name smaller -> private e.g. checkout
 //? package name bigger -> public e.g. Checkout
+
+// ? init function
+func init() {
+	fmt.Println("Initialize DB....")
+}
 
 func main() {
 	bkash := payment.NewBkash("1234")

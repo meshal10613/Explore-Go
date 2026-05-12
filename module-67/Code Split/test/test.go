@@ -2,6 +2,10 @@ package testing
 
 import "fmt"
 
+func init(){
+	fmt.Println("Test Package init...")
+}
+
 type MockPaymentMethod struct{}
 
 func (m *MockPaymentMethod) Pay(amount float64) {
