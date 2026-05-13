@@ -27,6 +27,14 @@ func getWorkDayStatus(day Weekday) string {
 	}
 }
 
+type OfficeStatus string
+
+const (
+	OPEN    OfficeStatus = "open"
+	HALF    OfficeStatus = "half open"
+	CLOSED  OfficeStatus = "closed"
+)
+
 func main() {
 	//? Enum
 	fmt.Println(getWorkDayStatus(SUNDAY))
