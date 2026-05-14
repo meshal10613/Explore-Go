@@ -21,8 +21,9 @@ func main() {
 
 func increment() {
 	mu.Lock()
+	defer mu.Unlock()
+
 	counter++
-	mu.Unlock()
 }
 
 func decrement() {
