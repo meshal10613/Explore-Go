@@ -35,9 +35,13 @@ func main() {
 
 func uploadFile() {
 	// defer wg.Done() //? Counter - 1
+
+	// var uploadURL string = "https://www.google.com"
 	fmt.Println("uploading file....")
 	time.Sleep(3 * time.Second)
 	fmt.Println("file uploaded!")
+
+	// return uploadURL
 }
 
 func saveToDB() {
