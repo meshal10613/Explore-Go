@@ -1,9 +1,29 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 )
+
+type User struct {
+	Name  string `json:"name"`
+	Age   int    `json:"age"`
+	Email string `json:"email"`
+}
+
+var user = []User{
+	{
+		Name:  "John Doe",
+		Age:   30,
+		Email: "john@doe",
+	},
+	{
+		Name:  "Jane Doe",
+		Age:   26,
+		Email: "jane@doe",
+	},
+}
 
 func main() {
 	mux := http.NewServeMux()
@@ -11,6 +31,9 @@ func main() {
 	port := 5000
 	mux.HandleFunc("/", rootHandler)
 	mux.HandleFunc("/health", healthHandler)
+	mux.HandleFunc("POST /createUser", createUserHandler)
+	mux.HandleFunc("GET /getUser", getUsersHandler)
+
 	fmt.Printf("Server is running at http://localhost:%d", port)
 	err := http.ListenAndServe(":5000", mux)
 	if err != nil {
@@ -24,4 +47,39 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 
 func healthHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "Server is healthy....")
+}
+
+func createUserHandler(w http.ResponseWriter, r *http.Request) {
+	// if r.Method != "POST" {
+	// 	http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+	// 	return
+	// }
+
+	var newUser User
+
+	err := json.NewDecoder(r.Body).Decode(&newUser)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	user = append(user, newUser)
+	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(user)
+}
+
+func getUsersHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	// users, err := json.Marshal(user) //? First saves in memory
+	// if err != nil {
+	// 	http.Error(w, err.Error(), http.StatusInternalServerError)
+	// 	return
+	// }
+
+	// w.Write(users)
+
+	encoder := json.NewEncoder(w)
+	encoder.Encode(user)
 }
