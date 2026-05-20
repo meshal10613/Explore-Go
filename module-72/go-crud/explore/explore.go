@@ -20,5 +20,5 @@ func main() {
 }
 
 //? users[:i] => ["Muhib"]
-//? users[i + 1:]... => ["Faysal"]
+//? users[i + 1:] => ["Faysal"]
 //? append(["Muhib"], ["Faysal"])

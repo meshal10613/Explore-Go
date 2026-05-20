@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"slices"
 	"strconv"
 )
 
@@ -160,7 +161,10 @@ func deleteUserByIdHandler(w http.ResponseWriter, r *http.Request) {
 		if user.Id == id {
 
 			// delete user from slice
-			users = append(users[:i], users[i+1:]...)
+			// users = append(users[:i], users[i+1:]...)
+
+			//? simple way with package
+			users = slices.Delete(users, i, i+1)
 
 			json.NewEncoder(w).Encode(map[string]string{
 				"message": "User deleted successfully",
