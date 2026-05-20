@@ -29,6 +29,18 @@ var user = []User{
 	},
 }
 
+func GetPathInt(r *http.Request, w http.ResponseWriter, param string) (int, bool) {
+	value := r.PathValue(param)
+
+	id, err := strconv.Atoi(value)
+	if err != nil {
+		http.Error(w, "Invalid "+param, http.StatusBadRequest)
+		return 0, false
+	}
+
+	return id, true
+}
+
 func main() {
 	mux := http.NewServeMux()
 
@@ -38,6 +50,7 @@ func main() {
 	mux.HandleFunc("POST /users", createUserHandler)
 	mux.HandleFunc("GET /users", getUsersHandler)
 	mux.HandleFunc("GET /users/{id}", getUserByIdHandler)
+	mux.HandleFunc("PUT /users/{id}", updateUserByIdHandler)
 
 	fmt.Printf("Server is running at http://localhost:%d", port)
 	err := http.ListenAndServe(":5000", mux)
@@ -90,11 +103,26 @@ func getUsersHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func getUserByIdHandler(w http.ResponseWriter, r *http.Request) {
-	idParams := r.PathValue("id")
-	id, err := strconv.Atoi(idParams)
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		http.Error(w, err.Error(), http.StatusBadRequest)
+	id, ok := GetPathInt(r, w, "id")
+	if !ok {
+		return
+	}
+
+	for _, user := range user {
+		if user.Id == id {
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(user)
+			return
+		}
+	}
+
+	w.WriteHeader(http.StatusNotFound)
+	http.Error(w, "User not found", http.StatusNotFound)
+}
+
+func updateUserByIdHandler(w http.ResponseWriter, r *http.Request) {
+	id, ok := GetPathInt(r, w, "id")
+	if !ok {
 		return
 	}
 
