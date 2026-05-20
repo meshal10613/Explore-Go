@@ -162,12 +162,9 @@ func deleteUserByIdHandler(w http.ResponseWriter, r *http.Request) {
 			// delete user from slice
 			users = append(users[:i], users[i+1:]...)
 
-			w.Header().Set("Content-Type", "application/json")
-
 			json.NewEncoder(w).Encode(map[string]string{
 				"message": "User deleted successfully",
 			})
-
 			return
 		}
 	}
