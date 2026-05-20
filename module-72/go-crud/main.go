@@ -51,6 +51,7 @@ func main() {
 	mux.HandleFunc("GET /users", getUsersHandler)
 	mux.HandleFunc("GET /users/{id}", getUserByIdHandler)
 	mux.HandleFunc("PUT /users/{id}", updateUserByIdHandler)
+	mux.HandleFunc("DELETE /users/{id}", deleteUserByIdHandler)
 
 	fmt.Printf("Server is running at http://localhost:%d", port)
 	err := http.ListenAndServe(":5000", mux)
@@ -146,5 +147,30 @@ func updateUserByIdHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusNotFound)
+	http.Error(w, "User not found", http.StatusNotFound)
+}
+
+func deleteUserByIdHandler(w http.ResponseWriter, r *http.Request) {
+	id, ok := GetPathInt(r, w, "id")
+	if !ok {
+		return
+	}
+
+	for i, user := range users {
+		if user.Id == id {
+
+			// delete user from slice
+			users = append(users[:i], users[i+1:]...)
+
+			w.Header().Set("Content-Type", "application/json")
+
+			json.NewEncoder(w).Encode(map[string]string{
+				"message": "User deleted successfully",
+			})
+
+			return
+		}
+	}
+
 	http.Error(w, "User not found", http.StatusNotFound)
 }
