@@ -14,7 +14,7 @@ type User struct {
 	Email string `json:"email"`
 }
 
-var user = []User{
+var users = []User{
 	{
 		Id:    1,
 		Name:  "John Doe",
@@ -82,9 +82,9 @@ func createUserHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user = append(user, newUser)
+	users = append(users, newUser)
 	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(user)
+	json.NewEncoder(w).Encode(users)
 }
 
 func getUsersHandler(w http.ResponseWriter, r *http.Request) {
@@ -99,7 +99,7 @@ func getUsersHandler(w http.ResponseWriter, r *http.Request) {
 	// w.Write(users)
 
 	encoder := json.NewEncoder(w)
-	encoder.Encode(user)
+	encoder.Encode(users)
 }
 
 func getUserByIdHandler(w http.ResponseWriter, r *http.Request) {
@@ -108,7 +108,7 @@ func getUserByIdHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	for _, user := range user {
+	for _, user := range users {
 		if user.Id == id {
 			w.Header().Set("Content-Type", "application/json")
 			json.NewEncoder(w).Encode(user)
@@ -126,10 +126,22 @@ func updateUserByIdHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	for _, user := range user {
+	var updatedUser User
+	err := json.NewDecoder(r.Body).Decode(&updatedUser)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	for idx, user := range users {
 		if user.Id == id {
+			updatedUser.Id = id
+			users[idx] = updatedUser
+
 			w.Header().Set("Content-Type", "application/json")
-			json.NewEncoder(w).Encode(user)
+			json.NewEncoder(w).Encode(updatedUser)
+			return
 		}
 	}
 
